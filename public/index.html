@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚔️ Agent Yield Battle Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="scanlines"></div>
+
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">⚔ YIELD<span class="logo-accent">BATTLE</span></div>
+      <div class="header-sub">AGENT ARENA // TESTNET // OPEN SOURCE</div>
+    </div>
+    <div class="header-center">
+      <div class="status-display" id="statusDisplay">AWAITING SIGNAL...</div>
+    </div>
+    <div class="header-right">
+      <div class="live-pill" id="livePill">
+        <span class="live-dot"></span><span id="liveText">OFFLINE</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- POOLS -->
+    <div class="section-header">
+      <span class="section-tag">01</span>
+      <span class="section-title">LIVE YIELD POOLS</span>
+      <span class="section-source">↳ DEFI LLAMA FEED</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="pools-grid" id="poolsGrid">
+      <div class="pool-loading">
+        <span class="loading-dots">FETCHING POOLS FROM DEFI LLAMA<span class="dot-anim">...</span></span>
+      </div>
+    </div>
+
+    <!-- ROUND -->
+    <div class="round-banner" id="roundBanner">
+      <div class="round-label-text">ROUND</div>
+      <div class="round-num" id="roundNum">—</div>
+      <div class="round-divider">/</div>
+      <div class="round-total-num" id="roundTotalNum">—</div>
+      <div class="round-pips" id="roundPips">
+        <div class="pip" id="pip0"></div>
+        <div class="pip" id="pip1"></div>
+        <div class="pip" id="pip2"></div>
+      </div>
+    </div>
+
+    <!-- BATTLE ARENA -->
+    <div class="section-header">
+      <span class="section-tag">02</span>
+      <span class="section-title">DEBATE MATRIX</span>
+      <span class="section-source">↳ DEEPSEEK-R1:8B AGENTS</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="battle-grid" id="battleGrid">
+
+      <div class="agent-col" id="col-degen">
+        <div class="agent-header degen-header">
+          <div class="agent-avatar">🎲</div>
+          <div class="agent-meta">
+            <div class="agent-name">DEGEN DANA</div>
+            <div class="agent-role">HIGH RISK · APY MAXI</div>
+          </div>
+          <div class="agent-badge" id="badge-degen">IDLE</div>
+        </div>
+        <div class="agent-feed" id="feed-degen"></div>
+      </div>
+
+      <div class="agent-col" id="col-safu">
+        <div class="agent-header safu-header">
+          <div class="agent-avatar">🛡️</div>
+          <div class="agent-meta">
+            <div class="agent-name">SAFU SAM</div>
+            <div class="agent-role">CONSERVATIVE · TVL GUARD</div>
+          </div>
+          <div class="agent-badge" id="badge-safu">IDLE</div>
+        </div>
+        <div class="agent-feed" id="feed-safu"></div>
+      </div>
+
+      <div class="agent-col" id="col-arb">
+        <div class="agent-header arb-header">
+          <div class="agent-avatar">⚡</div>
+          <div class="agent-meta">
+            <div class="agent-name">ARB ALICE</div>
+            <div class="agent-role">REAL YIELD · ALPHA SEEKER</div>
+          </div>
+          <div class="agent-badge" id="badge-arb">IDLE</div>
+        </div>
+        <div class="agent-feed" id="feed-arb"></div>
+      </div>
+
+    </div>
+
+    <!-- VERDICT -->
+    <div class="verdict-zone" id="verdictZone">
+      <div class="verdict-box" id="verdictBox">
+        <div class="verdict-label">⚖ FINAL VERDICT</div>
+        <div class="verdict-text" id="verdictText"></div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls-bar">
+      <button class="start-btn" id="startBtn" onclick="startBattle()">
+        <span class="btn-icon">⚔</span>
+        <div class="btn-labels">
+          <span class="btn-main">START BATTLE</span>
+          <span class="btn-sub">DEPLOY AGENTS · FETCH LIVE DATA</span>
+        </div>
+        <span class="btn-arrow">▶</span>
+      </button>
+    </div>
+
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
