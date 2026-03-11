@@ -1,13 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const { WebSocketServer } = require('ws');
 const { createServer } = require('http');
 const path = require('path');
-const { Ollama } = require('ollama');
+const Groq = require('groq-sdk');
 
 const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
-const ollama = new Ollama({ host: 'http://localhost:11434' });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -128,14 +129,15 @@ async function runDebate(ws, pools) {
       let inThink = false;
 
       try {
-        const stream = await ollama.chat({
-          model: 'deepseek-r1:8b',
+        const stream = await groq.chat.completions.create({
+          model: 'deepseek-r1-distill-llama-70b',
           messages,
-          stream: true
+          stream: true,
+          max_tokens: 1024
         });
 
         for await (const chunk of stream) {
-          const token = chunk.message.content;
+          const token = chunk.choices[0]?.delta?.content || '';
           fullText += token;
 
           // Stream thinking vs response separately
@@ -181,8 +183,13 @@ Be decisive. Format: WINNER POOL: [name] | WINNING AGENT: [name] | VERDICT: [one
   ];
 
   let judgeText = '';
-  const judgeStream = await ollama.chat({ model: 'deepseek-r1:8b', messages: judgeMessages, stream: true });
-  for await (const chunk of judgeStream) judgeText += chunk.message.content;
+  const judgeStream = await groq.chat.completions.create({
+    model: 'deepseek-r1-distill-llama-70b',
+    messages: judgeMessages,
+    stream: true,
+    max_tokens: 512
+  });
+  for await (const chunk of judgeStream) judgeText += chunk.choices[0]?.delta?.content || '';
 
   const { response: verdict } = parseThinkingAndResponse(judgeText);
   send('verdict', { verdict });
@@ -208,7 +215,7 @@ wss.on('connection', (ws) => {
 
 // ── Start ────────────────────────────────────────────────────────────────────
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`\n🥊 Agent Battle Arena → http://localhost:${PORT}\n`);
 });
