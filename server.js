@@ -12,6 +12,15 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/health', (req, res) => res.send('ok'));
+
+// Keep-alive: ping self every 10 min to prevent Render free tier spin-down
+if (process.env.RENDER_EXTERNAL_URL) {
+  setInterval(() => {
+    fetch(process.env.RENDER_EXTERNAL_URL + '/health').catch(() => {});
+  }, 10 * 60 * 1000);
+}
+
 // ── Agent personalities ──────────────────────────────────────────────────────
 
 const AGENTS = {
